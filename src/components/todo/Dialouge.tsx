@@ -27,7 +27,7 @@ const Dialouge = () => {
 
     const submitHandler = (e: FormEvent) => {
         e.preventDefault()
-        dispatch(addTodo({title, description}))
+        dispatch(addTodo({ title, description}))
     }
 
 

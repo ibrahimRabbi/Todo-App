@@ -1,6 +1,5 @@
-import { FormEvent, useState } from "react";
+import {FormEvent} from "react";
 import { Button } from "../ui/button.tsx";
-
 import {
     Dialog,
     DialogContent,
@@ -9,27 +8,36 @@ import {
     DialogTitle,
     DialogTrigger,
     DialogClose
-} from "../ui/dialog.tsx"
+} from "../ui/dialog.tsx";
 import { Input } from "../ui/input.tsx";
 import { Textarea } from "../ui/textarea.tsx";
-import { useAppDispatch } from "../../redux/hook.ts";
-import { addTodo } from "../../redux/features/todoSlice.tsx";
-// import { } from "@radix-ui/react-dialog";
-
+import { useAddTodoMutation } from "../../redux/api/query.ts";
+// import { useAppDispatch } from "../../redux/hook.ts";
+// import { addTodo } from "../../redux/features/todoSlice.tsx";
+ 
 
 
 
 const Dialouge = () => {
 
-    const dispatch = useAppDispatch()
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
+    //const dispatch = useAppDispatch()
+    const [addData,{isLoading,isSuccess,data}] = useAddTodoMutation()
+     
 
-    const submitHandler = (e: FormEvent) => {
+
+    const submitHandler = (e:FormEvent) => {
         e.preventDefault()
-        dispatch(addTodo({ title, description}))
-    }
+        
+        const data = {
+            title: e.target.title.value,
+            description: e.target.description.value,
+            priority: e.target.priority.value
+        }
+ 
+        //dispatch(addTodo({ title, description }))
+        addData(data)
 
+    }
 
 
 
@@ -46,10 +54,16 @@ const Dialouge = () => {
                     </DialogDescription>
                 </DialogHeader>
                 <form className="space-y-4 mt-2" onSubmit={submitHandler}>
-                    <Input onBlur={(e) => setTitle(e.target.value)} type="text" placeholder="Title" />
-                    <Textarea onBlur={(e) => setDescription(e.target.value)} placeholder="Type your message here." />
+                    <Input name="title" type="text" placeholder="Title" />
+                    <Textarea name="description" placeholder="Type your message here." />
+                    <select className="w-full border p-3 rounded-lg" name="priority">
+                        <option value="super high">super high</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
                     <DialogClose asChild>
-                        <Button className="w-full bg-cyan-500" type="submit">Sumit</Button>
+                        <Button className="w-full bg-cyan-500" type="submit">Submit</Button>
                     </DialogClose>
                 </form>
             </DialogContent>

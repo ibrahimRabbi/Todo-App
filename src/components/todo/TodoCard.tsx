@@ -1,34 +1,45 @@
-
-import { deleteTodo } from "../../redux/features/todoSlice";
-import { useAppDispatch, useAppSelector } from "../../redux/hook";
+// /import { deleteTodo } from "../../redux/features/todoSlice";
+// import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { ChangeEvent} from "react";
+import { useDeleteTodoMutation } from "../../redux/api/query";
 import { Button } from "../ui/button";
  
 
 type Tprops = {
     title: string,
     description: string,
-    id:string
+    id: string,
+    priority:string
  }
 
-const TodoCard = ({ title, description,id }: Tprops) => {
+const TodoCard = ({ title, description,id,priority }: Tprops) => {
 
-    console.log(id)
  
-    const { todos } = useAppSelector((state) => state.todo)
-    const dispatch = useAppDispatch()
+    // const { todos } = useAppSelector((state) => state.todo)
+    // const dispatch = useAppDispatch()
+    const [deleteTodo,{isSuccess}] = useDeleteTodoMutation()
      
-
+ 
 
     const deleteHandle = (id:string) => {
-        const deleting = todos.filter((todo) => todo.id !== id)
-        dispatch(deleteTodo(deleting))
-}
+        // const deleting = todos.filter((todo) => todo.id !== id)
+        // dispatch(deleteTodo(deleting))
+        deleteTodo(id)
+    }
+    
+
+    const checkHandler = (e:ChangeEvent) => {
+        if ((e.target as HTMLInputElement).checked) {
+             alert('todo has been done')
+         }
+    }
 
 
     
     return (
         <div className="flex justify-between items-center px-5 py-3 rounded-lg bg-white border shadow-sm">
-            <input type="checkbox" />
+            <input onChange={checkHandler} type="checkbox" />
+            <p>{priority}</p>
             <p>{title}</p>
             <p>{description}</p>
             <div className="space-x-4">

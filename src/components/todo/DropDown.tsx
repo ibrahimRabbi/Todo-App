@@ -1,31 +1,36 @@
-import { Button } from "../ui/button.tsx";
+ import { Button } from "../ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuLabel,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "../ui/dropdown-menu.tsx"
+} from '../ui/dropdown-menu'
+ 
 
 
-const DropDown = () => {
+
+function DropDown({changeHandler}:any) {
+  
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button className="bg-gradient-to-r from-teal-500 to-cyan-600">Filter</Button>
+                <Button variant="outline">Open</Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuContent className="w-56">
+                <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem>
-                <DropdownMenuItem>Team</DropdownMenuItem>
-                <DropdownMenuItem>Subscription</DropdownMenuItem>
+                <DropdownMenuRadioGroup onValueChange={(v)=>changeHandler(v)}>
+                    <DropdownMenuRadioItem value="High">High</DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="Medium">Medium</DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="Low">Low</DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
             </DropdownMenuContent>
         </DropdownMenu>
+    )
+}
 
-    );
-};
-
-export default DropDown;
+export default DropDown
